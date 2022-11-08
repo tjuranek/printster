@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement()) 
+  username String @unique
+  password String
+
+  userRole UserRole @relation(fields: [userRoleId], references: [id])
+  userRoleId Int
+
+  employee Employee @relation(fields: [employeeId], references: [id])
+  employeeId Int @unique
+}
+
+model UserRole {
+  id Int @id @default(autoincrement())
+  name String @unique
+
+  Users User[]
+}
+
+model Employee {
+  id Int @id @default(autoincrement())
+  name String
+  streetAddressLineOne String
+  streetAddressLineTwo String
+  emailAddress String @unique
+  phoneNumber String @unique
+  dateCreated DateTime @default(now())
+  dateDeactivated DateTime?
+
+  employeePosition EmployeePosition @relation(fields: [employeePositionId], references: [id])
+  employeePositionId Int
+
+  user User?
+  jobTasks JobTask[]
+
+  @@unique([name, streetAddressLineOne, streetAddressLineTwo])
+}
+
+model EmployeePosition {
+  id Int @id @default(autoincrement()) 
+  name String @unique
+
+  employees Employee[]
+}
+
+model Machine {
+  id Int @id @default(autoincrement())
+  nickname String @unique
+  model String
+  manufacturer String
+
+  type MachineType @relation(fields: [machineTypeId], references: [id])
+  machineTypeId Int
+
+  jobTasks JobTask []
+}
+
+model MachineType {
+  id Int @id @default(autoincrement())
+  name String @unique
+
+  jobStep JobStep?
+
+  machines Machine[]
+}
+
+model Job {
+  id Int @id @default(autoincrement())
+  name String @unique
+  author String
+  publisher String
+  startDate DateTime @default(now())
+  completionDate DateTime?
+
+  jobTasks JobTask[]
+}
+
+model JobStep {
+  id Int @id @default(autoincrement())
+  name String @unique
+
+  machineTypeId Int @unique
+  machineType MachineType @relation(fields: [machineTypeId], references: [id])
+
+  jobTasks JobTask[]
+}
+
+model JobTaskStatus {
+  id Int @id @default(autoincrement())
+  name String @unique
+
+  jobTasks JobTask[]
+}
+
+model JobTask {
+  id Int @id @default(autoincrement())
+
+  job Job @relation(fields: [jobId], references: [id])
+  jobId Int
+
+  jobStep JobStep @relation(fields: [jobStepId], references: [id])
+  jobStepId Int
+
+  jobTaskStatus JobTaskStatus @relation(fields: [jobTaskStatusId], references: [id])
+  jobTaskStatusId Int
+
+  employee Employee @relation(fields: [employeeId], references: [id])
+  employeeId Int
+
+  machine Machine @relation(fields: [machineId], references: [id])
+  machineId Int
+}
+
