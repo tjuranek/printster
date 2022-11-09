@@ -13,7 +13,7 @@
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
     "linter": "eslint ./app ./cypress ./prisma --fix",
     "formatter": "prettier ./app ./cypress ./prisma --write",
-    "start": "npm run dev"
+    "start": "remix-serve build/index.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
