@@ -7,8 +7,8 @@ import {
 } from '~/models/employee.server';
 import invariant from 'tiny-invariant';
 import { Form, useLoaderData } from '@remix-run/react';
-import { formatDateString } from '~/utils/format';
-import { getCompletedTaskCount, getPendingTaskCount } from '~/utils/jobs';
+import { formatDateString } from '~/utils';
+import { getCompletedTaskCount, getPendingTaskCount } from '~/utils';
 
 export async function loader({ params }: LoaderArgs) {
   const employeeId = Number(params.employeeId);

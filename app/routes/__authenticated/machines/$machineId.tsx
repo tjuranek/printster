@@ -2,7 +2,7 @@ import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Link, useLoaderData, useNavigate } from '@remix-run/react';
 import { getMachine, getMachineJobTasks } from '~/models/machines.server';
-import { formatDateString } from '~/utils/format';
+import { formatDateString } from '~/utils';
 
 export async function loader({ params }: LoaderArgs) {
   const machineId = Number(params.machineId);

@@ -1,27 +1,27 @@
-import { createCookieSessionStorage, redirect } from "@remix-run/node";
-import type { User } from "@prisma/client";
-import { getUserById } from "./models/users.server";
-import { isAdmin, isEmployee } from "./utils/roles";
+import { createCookieSessionStorage, redirect } from '@remix-run/node';
+import type { User } from '@prisma/client';
+import { getUserById } from './models/users.server';
+import { isAdmin, isEmployee } from './utils';
 
 export const sessionStorage = createCookieSessionStorage({
   cookie: {
-    name: "__session",
+    name: '__session',
     httpOnly: true,
     maxAge: 0,
-    path: "/",
-    sameSite: "lax",
-    secrets: [process.env.SESSION_SECRET as string],
-  },
+    path: '/',
+    sameSite: 'lax',
+    secrets: [process.env.SESSION_SECRET as string]
+  }
 });
 
-const USER_SESSION_KEY = "userId";
+const USER_SESSION_KEY = 'userId';
 
 /**
  * Parses the session from the request cookie, returning
  * an empty session if there wasn't one.
  */
 export async function getSession(request: Request) {
-  const cookie = request.headers.get("Cookie");
+  const cookie = request.headers.get('Cookie');
 
   return sessionStorage.getSession(cookie);
 }
@@ -64,7 +64,7 @@ export async function requireUserId(request: Request) {
   const userId = await getUserId(request);
 
   if (!userId) {
-    throw redirect("/");
+    throw redirect('/');
   }
 
   return userId;
@@ -92,11 +92,11 @@ export async function requireAdminPermissions(request: Request) {
   const user = await requireUser(request);
 
   if (!isAdmin(user)) {
-    console.log("pre redirect");
-    throw redirect("/unauthorized");
+    console.log('pre redirect');
+    throw redirect('/unauthorized');
   }
 
-  console.log("pre return");
+  console.log('pre return');
   return user;
 }
 
@@ -111,11 +111,11 @@ export async function requireEmployeePermissions(request: Request) {
     return user;
   }
 
-  throw redirect("/unauthorized");
+  throw redirect('/unauthorized');
 }
 
 function getHomePagePathname(user: User) {
-  return isAdmin(user) ? "/dashboard" : "/tasklist";
+  return isAdmin(user) ? '/dashboard' : '/tasklist';
 }
 
 export function redirectToHomePage(user: User) {
@@ -134,10 +134,10 @@ export async function createUserSession(request: Request, user: User) {
 
   return redirect(redirectPathname, {
     headers: {
-      "Set-Cookie": await sessionStorage.commitSession(session, {
-        maxAge: 60 * 60 * 24 * 7,
-      }),
-    },
+      'Set-Cookie': await sessionStorage.commitSession(session, {
+        maxAge: 60 * 60 * 24 * 7
+      })
+    }
   });
 }
 
@@ -148,9 +148,9 @@ export async function createUserSession(request: Request, user: User) {
 export async function logout(request: Request) {
   const session = await getSession(request);
 
-  return redirect("/", {
+  return redirect('/', {
     headers: {
-      "Set-Cookie": await sessionStorage.destroySession(session),
-    },
+      'Set-Cookie': await sessionStorage.destroySession(session)
+    }
   });
 }

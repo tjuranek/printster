@@ -1,7 +1,7 @@
-import { UserCircleIcon } from "@heroicons/react/24/solid";
-import type { User } from "@prisma/client";
-import { Link } from "@remix-run/react";
-import { isAdmin } from "~/utils/roles";
+import { UserCircleIcon } from '@heroicons/react/24/solid';
+import type { User } from '@prisma/client';
+import { Link } from '@remix-run/react';
+import { isAdmin } from '~/utils';
 
 interface NavbarProps {
   user: User;

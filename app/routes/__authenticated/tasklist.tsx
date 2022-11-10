@@ -1,22 +1,22 @@
-import { HomeIcon, QueueListIcon } from "@heroicons/react/24/solid";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { HomeIcon, QueueListIcon } from '@heroicons/react/24/solid';
+import type { ActionArgs, LoaderArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import {
   Form,
   Link,
   useLoaderData,
   useNavigate,
-  useSubmit,
-} from "@remix-run/react";
-import { Breadcrumbs } from "~/components/Breadcrumbs";
-import { getEmployee, getEmployees } from "~/models/employee.server";
+  useSubmit
+} from '@remix-run/react';
+import { Breadcrumbs } from '~/components/Breadcrumbs';
+import { getEmployee, getEmployees } from '~/models/employee.server';
 import {
   getIncompleteJobTasks,
   getJobTaskStatuses,
-  updateJobTaskStatus,
-} from "~/models/jobs.server";
-import { requireUser } from "~/session.server";
-import { isAdmin } from "~/utils/roles";
+  updateJobTaskStatus
+} from '~/models/jobs.server';
+import { requireUser } from '~/session.server';
+import { isAdmin } from '~/utils';
 
 export async function loader({ request }: LoaderArgs) {
   const user = await requireUser(request);
@@ -29,14 +29,14 @@ export async function loader({ request }: LoaderArgs) {
     ...(isAdmin(user) && { employees: await getEmployees() }),
     jobTaskStatuses,
     tasks,
-    user,
+    user
   });
 }
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
-  const jobTaskId = Number(formData.get("jobTaskId"));
-  const jobTaskStatusId = Number(formData.get("jobTaskStatusId"));
+  const jobTaskId = Number(formData.get('jobTaskId'));
+  const jobTaskStatusId = Number(formData.get('jobTaskStatusId'));
 
   await updateJobTaskStatus(jobTaskId, jobTaskStatusId);
   return json({});
@@ -60,14 +60,14 @@ export default function TaskList() {
           breadcrumbs={[
             {
               icon: <HomeIcon />,
-              link: "/",
-              name: "Home",
+              link: '/',
+              name: 'Home'
             },
             {
               icon: <QueueListIcon />,
-              link: "/tasklist",
-              name: "Task List",
-            },
+              link: '/tasklist',
+              name: 'Task List'
+            }
           ]}
         />
 
@@ -97,16 +97,16 @@ export default function TaskList() {
 
       <div className="mt-8" data-test-id="welcome-message">
         <h2 className="text-3xl">
-          Wecome back,{" "}
+          Wecome back,{' '}
           <span data-test-id="welcome-message-name">
-            {employee?.name.split(" ")[0]}
+            {employee?.name.split(' ')[0]}
           </span>
         </h2>
 
         <p className="text-gray-500 pt-2">
-          You've got{" "}
-          <span data-test-id="welcome-message-task-count">{tasks.length}</span>{" "}
-          task{tasks.length !== 1 && "s"} on your list.
+          You've got{' '}
+          <span data-test-id="welcome-message-task-count">{tasks.length}</span>{' '}
+          task{tasks.length !== 1 && 's'} on your list.
         </p>
       </div>
 
@@ -132,8 +132,8 @@ export default function TaskList() {
                       <span data-test-id={`task-list-item-${task.id}-step`}>
                         {task.jobStep.name}
                       </span>
-                    </b>{" "}
-                    with{" "}
+                    </b>{' '}
+                    with{' '}
                     <Link
                       data-test-id={`task-list-item-${task.id}-machine`}
                       to={`/machines/${task.machine.id}`}

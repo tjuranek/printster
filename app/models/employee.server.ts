@@ -1,7 +1,7 @@
-import type { Employee } from "@prisma/client";
-import { prisma } from "~/db.server";
-import { EmployeePosition } from "~/enums/employeePosition";
-import { isAdmin, isEmployee } from "~/utils/roles";
+import type { Employee } from '@prisma/client';
+import { prisma } from '~/db.server';
+import { EmployeePosition } from '~/enums/employeePosition';
+import { isAdmin, isEmployee } from '~/utils';
 
 /**
  * Gets all available employees.
@@ -12,26 +12,26 @@ export async function getEmployees() {
 
 export async function getOperators() {
   return await prisma.employee.findMany({
-    where: { employeePositionId: EmployeePosition.MachineOperator },
+    where: { employeePositionId: EmployeePosition.MachineOperator }
   });
 }
 
 /**
  * Gets an employee, thier position, and job tasks.
  */
-export async function getEmployeeDetails(id: Employee["id"]) {
+export async function getEmployeeDetails(id: Employee['id']) {
   return prisma.employee.findFirst({
     where: { id },
     include: {
       jobTasks: true,
-      employeePosition: true,
-    },
+      employeePosition: true
+    }
   });
 }
 
-export async function getEmployee(id: Employee["id"]) {
+export async function getEmployee(id: Employee['id']) {
   return prisma.employee.findUnique({
-    where: { id },
+    where: { id }
   });
 }
 
@@ -50,38 +50,38 @@ export async function getUsersCount() {
 
   return {
     adminCount: admins.length,
-    employeeCount: employees.length,
+    employeeCount: employees.length
   };
 }
 
 export async function getLastHiredEmployee() {
   return prisma.employee.findFirst({
     orderBy: {
-      dateCreated: "desc",
-    },
+      dateCreated: 'desc'
+    }
   });
 }
 
 /**
  * Deactivates an employee.
  */
-export async function deactivateEmployeeById(id: Employee["id"]) {
+export async function deactivateEmployeeById(id: Employee['id']) {
   return prisma.employee.update({
     where: { id },
     data: {
-      dateDeactivated: new Date(),
-    },
+      dateDeactivated: new Date()
+    }
   });
 }
 
 /**
  * Reactivates an employee.
  */
-export async function reactivateEmployeeById(id: Employee["id"]) {
+export async function reactivateEmployeeById(id: Employee['id']) {
   return prisma.employee.update({
     where: { id },
     data: {
-      dateDeactivated: null,
-    },
+      dateDeactivated: null
+    }
   });
 }

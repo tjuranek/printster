@@ -2205,7 +2205,7 @@ html {
   --tw-bg-opacity: 0.4;
   transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-property: transform, opacity;
+  transition-property: transform, opacity, visibility;
   overflow-y: hidden;
   overscroll-behavior: contain;
 }

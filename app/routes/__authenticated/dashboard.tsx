@@ -1,17 +1,17 @@
-import { json } from "@remix-run/node";
-import type { LoaderArgs } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
-import { getLastHiredEmployee, getUsersCount } from "~/models/employee.server";
-import { getRecentJobs } from "~/models/jobs.server";
-import { getMachinesCount } from "~/models/machines.server";
-import { Breadcrumbs } from "~/components/Breadcrumbs";
-import { formatDateString } from "~/utils/format";
-import { requireAdminPermissions } from "~/session.server";
+import { json } from '@remix-run/node';
+import type { LoaderArgs } from '@remix-run/node';
+import { Link, useLoaderData } from '@remix-run/react';
+import { getLastHiredEmployee, getUsersCount } from '~/models/employee.server';
+import { getRecentJobs } from '~/models/jobs.server';
+import { getMachinesCount } from '~/models/machines.server';
+import { Breadcrumbs } from '~/components/Breadcrumbs';
+import { formatDateString } from '~/utils';
+import { requireAdminPermissions } from '~/session.server';
 import {
   ChartBarSquareIcon,
   HomeIcon,
-  UserPlusIcon,
-} from "@heroicons/react/24/solid";
+  UserPlusIcon
+} from '@heroicons/react/24/solid';
 
 export async function loader({ request }: LoaderArgs) {
   await requireAdminPermissions(request);
@@ -25,7 +25,7 @@ export async function loader({ request }: LoaderArgs) {
     recentJobs,
     lastHiredEmployee,
     usersCount,
-    machinesCount,
+    machinesCount
   });
 }
 
@@ -39,14 +39,14 @@ export default function Dashboard() {
         breadcrumbs={[
           {
             icon: <HomeIcon />,
-            link: "/",
-            name: "Home",
+            link: '/',
+            name: 'Home'
           },
           {
             icon: <ChartBarSquareIcon />,
-            link: "/",
-            name: "Dashboard",
-          },
+            link: '/',
+            name: 'Dashboard'
+          }
         ]}
       />
 
@@ -88,7 +88,7 @@ export default function Dashboard() {
                   className="text-sm"
                   data-test-id={`users-card-last-hired-employee-${lastHiredEmployee.id}`}
                 >
-                  <b>{lastHiredEmployee.name}</b> was hired on{" "}
+                  <b>{lastHiredEmployee.name}</b> was hired on{' '}
                   {formatDateString(lastHiredEmployee.dateCreated)}
                 </p>
               </div>
