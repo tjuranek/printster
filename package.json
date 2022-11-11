@@ -14,7 +14,9 @@
     "linter": "eslint ./app ./cypress ./prisma --fix",
     "formatter": "prettier ./app ./cypress ./prisma --write",
     "start": "remix-serve build/index.js",
-    "test": "jest"
+    "test:e2e:cypress": "cypress run --browser chrome",
+    "test:unit:jest": "jest",
+    "test:unit:vitest": "vitest run"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
@@ -30,6 +32,7 @@
   "devDependencies": {
     "@remix-run/dev": "^1.7.0",
     "@remix-run/eslint-config": "^1.7.0",
+    "@swc/jest": "^0.2.23",
     "@types/bcryptjs": "^2.4.2",
     "@types/jest": "^29.2.2",
     "@types/node": "^18.7.16",
