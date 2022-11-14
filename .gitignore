@@ -8,3 +8,7 @@ cypress/screenshots
 cypress/videos
 node_modules
 public
+/test-results/
+/playwright-report/
+/playwright/.cache/
+playwright/results
