@@ -16,6 +16,7 @@ const config: PlaywrightTestConfig = {
   ],
   reporter: 'html',
   testDir: './playwright/tests',
+  timeout: 5000,
   use: {
     baseURL: 'http://localhost:3000',
     trace: {
