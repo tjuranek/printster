@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const config: PlaywrightTestConfig = {
   fullyParallel: false,
+  globalSetup: require.resolve('./playwright/global-setup'),
   outputDir: './playwright/results',
   projects: [
     {
@@ -14,7 +15,7 @@ const config: PlaywrightTestConfig = {
     }
   ],
   reporter: 'html',
-  testDir: './playwright',
+  testDir: './playwright/tests',
   use: {
     baseURL: 'http://localhost:3000',
     trace: {

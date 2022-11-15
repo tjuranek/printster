@@ -12,3 +12,4 @@ public
 /playwright-report/
 /playwright/.cache/
 playwright/results
+playwright/storage
